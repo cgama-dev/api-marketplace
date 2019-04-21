@@ -2,9 +2,15 @@ const express = require('express')
 
 const router = express.Router()
 
-const { create, query } = require('./../src/app/controllers/User')
+const UserController = require('./../src/app/controllers/User')
+const SessionControler = require('./../src/app/controllers/Session')
 
-router.get('/users', query)
-router.post('/users', create)
+//users
+router.get('/users', UserController.query)
+router.post('/users', UserController.create)
+
+//sessions 
+router.post('/sessions', SessionControler.create)
+
 
 module.exports = router
