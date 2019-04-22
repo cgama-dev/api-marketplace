@@ -2,15 +2,21 @@ const express = require('express')
 
 const router = express.Router()
 
-const UserController = require('./../src/app/controllers/User')
-const SessionControler = require('./../src/app/controllers/Session')
+const controllers = require('./app/controllers')
+
+const middlewares = require('./app/middlewares')
 
 //users
-router.get('/users', UserController.query)
-router.post('/users', UserController.create)
+router.get('/users', controllers.UserController.query)
+router.post('/users', controllers.UserController.create)
+router.delete('/users/:id', controllers.UserController.destroy)
 
 //sessions 
-router.post('/sessions', SessionControler.create)
+router.post('/sessions', controllers.SessionControler.create)
+
+router.get('/teste', middlewares.AuthMiddleware.isAthenticate, (req, res) => {
+    res.send({ message: 'User authenticated' })
+})
 
 
 module.exports = router
