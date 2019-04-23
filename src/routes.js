@@ -12,11 +12,17 @@ router.post('/users', controllers.UserController.create)
 router.delete('/users/:id', controllers.UserController.destroy)
 
 //sessions 
-router.post('/sessions', controllers.SessionControler.create)
+router.post('/sessions', controllers.SessionController.create)
 
-router.get('/teste', middlewares.AuthMiddleware.isAthenticate, (req, res) => {
-    res.send({ message: 'User authenticated' })
-})
+// middleware
+router.use(middlewares.AuthMiddleware.isAthenticate)
+
+//Ad 
+router.get('/ads', controllers.AdController.query)
+router.post('/ads', controllers.AdController.create)
+router.put('/ads/:id', controllers.AdController.update)
+router.delete('/ads/:id', controllers.AdController.destroy)
+
 
 
 module.exports = router
