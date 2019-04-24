@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const mongoosePaginate = require('mongoose-paginate')
 
 const AdSchema = new mongoose.Schema({
     title: {
@@ -23,6 +24,8 @@ const AdSchema = new mongoose.Schema({
         default: Date.now
     }
 })
+
+AdSchema.plugin(mongoosePaginate)
 
 const AdModel = mongoose.model('Ad', AdSchema)
 

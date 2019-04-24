@@ -19,6 +19,7 @@ router.use(middlewares.AuthMiddleware.isAthenticate)
 
 //Ad 
 router.get('/ads', controllers.AdController.query)
+router.get('/ads/:id', controllers.AdController.get)
 router.post('/ads', controllers.AdController.create)
 router.put('/ads/:id', controllers.AdController.update)
 router.delete('/ads/:id', controllers.AdController.destroy)
