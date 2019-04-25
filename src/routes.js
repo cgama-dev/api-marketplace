@@ -11,19 +11,29 @@ router.get('/users', controllers.UserController.query)
 router.post('/users', controllers.UserController.create)
 router.delete('/users/:id', controllers.UserController.destroy)
 
-//sessions 
+/**
+ * Sessions
+ **/
 router.post('/sessions', controllers.SessionController.create)
 
-// middleware
+/**
+ * Middleware
+ **/
+
 router.use(middlewares.AuthMiddleware.isAthenticate)
 
-//Ad 
+/**
+ * Ads
+ **/
 router.get('/ads', controllers.AdController.query)
 router.get('/ads/:id', controllers.AdController.get)
 router.post('/ads', controllers.AdController.create)
 router.put('/ads/:id', controllers.AdController.update)
 router.delete('/ads/:id', controllers.AdController.destroy)
 
-
+/**
+ * Purchase
+ **/
+router.post('/purchases', controllers.PurchaseController.create)
 
 module.exports = router
