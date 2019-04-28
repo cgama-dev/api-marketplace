@@ -13,19 +13,13 @@ class PurchaseController {
 
         const user = await UserModel.findById(req.userId)
 
-        try {
+        Queue.create(PurchaseMail.key, {
+            ad: purchaseAd,
+            user,
+            content
+        }).save()
 
-            Queue.create(PurchaseMail.key, {
-                ad: purchaseAd,
-                user,
-                content
-            }).save()
-
-            return res.status(200).send()
-        } catch (err) {
-            console.log(err)
-        }
-
+        return res.status(200).send()
 
     }
 }

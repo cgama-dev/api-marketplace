@@ -1,7 +1,11 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const Youch = require('youch')
 const validate = require('express-validation')
 const database = require('./app/config/database')
+const Sentry = require('@sentry/node')
+const ConfigSentry = require('./app/config/sentry')
+
 class App {
     constructor() {
         this.express = express()
@@ -9,8 +13,13 @@ class App {
 
         this.database()
         this.middlewares()
+        this.sentry()
         this.routes()
         this.exeption()
+    }
+
+    sentry() {
+        Sentry.init(ConfigSentry)
     }
 
     database() {
@@ -22,6 +31,7 @@ class App {
 
     middlewares() {
         this.express.use(express.json())
+        this.express.use(Sentry.Handlers.requestHandler());
     }
 
     routes() {
@@ -29,9 +39,19 @@ class App {
     }
 
     exeption() {
-        this.express.use((err, req, res, next) => {
+
+        if (process.env.NODE_ENV === 'production') {
+            this.express.use(Sentry.Handlers.errorHandler());
+        }
+
+        this.express.use(async (err, req, res, next) => {
             if (err instanceof validate.ValidationError) {
                 return res.status(err.status).json(err)
+            }
+
+            if (process.env.NODE_ENV !== 'production') {
+                const youch = new Youch(err, req)
+                return res.send(await youch.toHTML())
             }
 
             return res.status(err.status || 500)

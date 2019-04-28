@@ -7,6 +7,10 @@ module.exports = {
                 message: "É obrigatório informar o id do anúncio"
             };
         }),
-        content: Joi.string().required()
+        content: Joi.string().required().error(error => {
+            return {
+                message: "É obrigatório informar o contexto da compra"
+            }
+        })
     }
 }

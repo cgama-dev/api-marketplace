@@ -3,7 +3,9 @@ const UserModel = require('../models/User')
 class UserController {
 
     async query(req, res) {
+        
         const users = await UserModel.find()
+
         return res.status(200).json(users)
     }
 
