@@ -1,4 +1,4 @@
 module.exports = {
-    secreteKey: 'cgamadev123',
+    secreteKey: process.env.APP_SECRET,
     expiresIn: '864000'
 }
